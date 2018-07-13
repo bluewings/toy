@@ -24,6 +24,7 @@ class Week extends PureComponent {
 
     // rowHeight={this.props.rowHeight} 
 
+    const width = Math.floor(this.props.width / 7)
     return (
 
       <div>
@@ -35,11 +36,16 @@ class Week extends PureComponent {
             return <Day
               day={day}
               dayOfWeek={i}
+
+              width={width} 
               rowHeight={this.props.rowHeight}  
               cache={this.props.cache}
               dayCss={this.props.dayCss}
               dayRenderer={this.props.dayRenderer}
-              
+
+              onDayClick={this.props.onDayClick}
+              onDayMouseover={this.props.onDayMouseover}
+              onDayMouseout={this.props.onDayMouseout}
               />
           })
         }

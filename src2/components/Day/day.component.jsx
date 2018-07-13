@@ -27,10 +27,11 @@ const deserialize = (serialized) => {
   return deserialized;
 };
 
-const getStyle = (height, dayCss) => {
+const getStyle = (width, height, dayCss) => {
   if (!cached[height]) {
     const finale = {
       ...dayCss({
+        width: width + 'px',
         textAlign: 'center',
         lineHeight: height + 'px',
         fontSize: '14px',
@@ -59,8 +60,8 @@ class Day extends PureComponent {
 
   // }
 
-  dayStyle = memoize((height, dayCss) => {
-    return getStyle(height, dayCss);
+  dayStyle = memoize((width, height, dayCss) => {
+    return getStyle(width, height, dayCss);
   })
 
 
@@ -82,7 +83,8 @@ class Day extends PureComponent {
         // 이 항목들은 임의로 바뀔 수 없음.
         verticalAlign: 'top',
         display: 'inline-block',
-        width: '36px',
+        // width: '36px',
+        width: state.width,
         height: state.height
       }
       ;
@@ -94,6 +96,19 @@ class Day extends PureComponent {
 
   newDayStyle = (state) => {
     return this._dayStyle(...serialize(state))
+  }
+
+  handleClick = (event) => {
+    
+    this.props.onDayClick(event, {
+      
+    });
+  }
+  handleMouseover = (event) => {
+    this.props.onDayMouseover(event);
+  }
+  handleMouseout = (event) => {
+    this.props.onDayMouseout(event);
   }
 
   // _dayStyle = memoize
@@ -116,6 +131,7 @@ class Day extends PureComponent {
     const dayStyle = this.newDayStyle({
       day,
       dayOfWeek,
+      width: this.props.width,
       height: this.props.rowHeight
     })
 
@@ -131,6 +147,10 @@ class Day extends PureComponent {
 
     return (
 <span className={dayStyle}
+
+onClick={this.handleClick}
+onMouseover={this.handleMouseover}
+onMouseout={this.handleMouseout}
     
     > {rendered} </span>
     )

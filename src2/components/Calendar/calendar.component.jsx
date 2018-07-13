@@ -14,6 +14,18 @@ class Calendar extends PureComponent {
 
   cache = {}
 
+  handleDayClick = (event) => {
+    console.log('handleDayMouseover');
+  }
+
+  handleDayMouseover = (event) => {
+    
+  }
+
+  handleDayMouseout = (event) => {
+    
+  }
+
   render() {
     // return template();
     // console.log('test');
@@ -26,7 +38,7 @@ class Calendar extends PureComponent {
     return (
       <div>
         <pre>{JSON.stringify(this.props)}</pre>
-      <div style={{ width: 600, height: 400, border: '5px solid red' }}>
+      <div style={{ width: this.props.width, height: this.props.height, border: '5px solid red' }}>
         <AutoSizer>
           {({ height, width }) => {
             
@@ -51,10 +63,18 @@ class Calendar extends PureComponent {
                     <div key={key} style={style}>
                       {/* <h3></h3> */}
                       <Month 
+                      
                       {...months[index]} 
+
+                      width={this.props.width} 
+
                       rowHeight={this.props.rowHeight} 
 
                       cache={this.cache}
+
+                      onDayClick={this.handleDayClick}
+                      onDayMouseover={this.handleDayMouseover}
+                      onDayMouseout={this.handleDayMouseout}
 
                       monthCss={this.props.monthCss}
                       monthLabelCss={this.props.monthLabelCss}
@@ -95,10 +115,12 @@ const enhance = compose(
   defaultProps({
     min: new Date(2018, 0, 1),
     max: new Date(2020, 11, 31),
+    width: 400,
+    height: 400,
     rowHeight: 36,
     renderer: {
       monthLabel: (base, { year, month }) => {
-        return month + ' ' + year;
+        return year + '년 ' + month + '월';
       },
       // day: (base, { day }) => {
       //   return (

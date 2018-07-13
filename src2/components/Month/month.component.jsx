@@ -41,7 +41,7 @@ class Month extends PureComponent {
         {
           this.props.weeks.map(week => {
             return <Week {...week} daysInMonth={this.props.daysInMonth}
-
+              width={this.props.width} 
               rowHeight={this.props.rowHeight} 
 
               cache={this.props.cache}
@@ -53,7 +53,12 @@ class Month extends PureComponent {
               monthRenderer={this.props.monthRenderer}
               weekRenderer={this.props.weekRenderer}
               dayRenderer={this.props.dayRenderer}
-            
+
+
+              onDayClick={this.props.onDayClick}
+              onDayMouseover={this.props.onDayMouseover}
+              onDayMouseout={this.props.onDayMouseout}
+
             />
           })
         }
