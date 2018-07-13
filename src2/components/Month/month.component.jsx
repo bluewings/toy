@@ -36,7 +36,7 @@ class Month extends PureComponent {
 
         cache={this.props.cache}
         monthLabelCss={this.props.monthLabelCss}
-        
+        monthLabelRenderer={this.props.monthLabelRenderer}
         />
         {
           this.props.weeks.map(week => {
@@ -49,6 +49,10 @@ class Month extends PureComponent {
               monthLabelCss={this.props.monthLabelCss}
               weekCss={this.props.weekCss}
               dayCss={this.props.dayCss}
+
+              monthRenderer={this.props.monthRenderer}
+              weekRenderer={this.props.weekRenderer}
+              dayRenderer={this.props.dayRenderer}
             
             />
           })

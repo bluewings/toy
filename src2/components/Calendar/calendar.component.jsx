@@ -55,10 +55,16 @@ class Calendar extends PureComponent {
                       rowHeight={this.props.rowHeight} 
 
                       cache={this.cache}
+
                       monthCss={this.props.monthCss}
                       monthLabelCss={this.props.monthLabelCss}
                       weekCss={this.props.weekCss}
                       dayCss={this.props.dayCss}
+
+                      monthRenderer={this.props.monthRenderer}
+                      monthLabelRenderer={this.props.monthLabelRenderer}
+                      weekRenderer={this.props.weekRenderer}
+                      dayRenderer={this.props.dayRenderer}
                       
                       />
                       </div>
@@ -90,13 +96,27 @@ const enhance = compose(
     min: new Date(2018, 0, 1),
     max: new Date(2020, 11, 31),
     rowHeight: 36,
+    renderer: {
+      monthLabel: (base, { year, month }) => {
+        return month + ' ' + year;
+      },
+      // day: (base, { day }) => {
+      //   return (
+      //     <div>
+      //       _
+      //       {base}
+      //     </div>
+      //   )
+      // }
+    },
     styles: {
-      day: ((base, { day }) => {
+      day: ((base, { day, dayOfWeek }) => {
 
-        if (day === 15) {
+        if (dayOfWeek === 0) {
           return {
             ...base,
-            background: 'yellow',
+            color: 'red'
+            // background: 'yellow',
           }
         }
         return base;
@@ -155,6 +175,19 @@ const enhance = compose(
       monthLabelCss: (base) => base,
       weekCss: (base) => base,
       dayCss: (base) => base,
+    })
+  }), 
+  withPropsOnChange(['renderer'], ({ renderer = {} }) => {
+    return Object.keys(renderer).reduce((prev, key) => {
+      return {
+        ...prev,
+        [key + 'Renderer']: renderer[key]
+      }
+    }, {
+      monthRenderer: (base) => base,
+      monthLabelRenderer: (base) => base,
+      weekRenderer: (base) => base,
+      dayRenderer: (base) => base,
     })
   }), 
 );

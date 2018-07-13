@@ -102,7 +102,8 @@ class Day extends PureComponent {
     // return template();
     // console.log('test');
     const {
-      day
+      day,
+      dayOfWeek,
     } = this.props;
 
     // console.log(this.dayStyle);
@@ -114,6 +115,7 @@ class Day extends PureComponent {
   
     const dayStyle = this.newDayStyle({
       day,
+      dayOfWeek,
       height: this.props.rowHeight
     })
 
@@ -121,10 +123,24 @@ class Day extends PureComponent {
 
     // const dayStyle = this.dayStyle(this.props.rowHeight, this.props.dayCss);
 
+    const org = <em>{day}</em>
+    const rendered = this.props.dayRenderer(org, {
+      day,
+      dayOfWeek
+    })
 
-    return <span className={dayStyle}
+    return (
+<span className={dayStyle}
     
-    > {day} </span>
+    > {rendered} </span>
+    )
+    
+
+
+
+    // return <span className={dayStyle}
+    
+    // > {day} </span>
 
 
   }

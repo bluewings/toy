@@ -33,9 +33,12 @@ class Week extends PureComponent {
             if (day < 1) { day = '' };
             if (day > this.props.daysInMonth) { day = '' };
             return <Day
-              day={day}  rowHeight={this.props.rowHeight}  
+              day={day}
+              dayOfWeek={i}
+              rowHeight={this.props.rowHeight}  
               cache={this.props.cache}
               dayCss={this.props.dayCss}
+              dayRenderer={this.props.dayRenderer}
               
               />
           })

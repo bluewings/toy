@@ -42,12 +42,24 @@ class MonthLabel extends PureComponent {
 
 
 
-    return (
-      <div className={rowHeight}>
-{year} {month}
-        </div>
-    )
+//     return (
+//       <div className={rowHeight}>
+// {year} {month}
+//         </div>
+//     )
 
+
+    const org = <em>{year} {month}</em>
+    const rendered = this.props.monthLabelRenderer(org, {
+      year,
+      month,
+    })
+// const monthLabelStyle = '';
+    return (
+<span className={rowHeight}
+    
+    > {rendered} </span>
+    )
 
   }
 }
