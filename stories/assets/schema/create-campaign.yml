@@ -1,0 +1,68 @@
+---
+type: object
+properties:
+  name:
+    type: string
+    title: Name
+    # maxLength: 10
+    # description: wow
+    # options:
+    #   category: basic
+
+  country:
+    type: string
+    title: Target country
+    enum:
+      - JP
+      - TH
+    options:
+      alias:
+        JP: Japan
+        TH: Thailand
+
+  currency:
+    type: string
+    title: Currency
+    enum:
+      - JPY
+      - THB
+
+  productName:
+    type: string
+    title: Official product name
+
+  productUrl:
+    type: string
+    title: Product URL
+    format: uri
+
+  lineId:
+    type: string
+    title: LINE ID
+
+  corporateName:
+    type: string
+    title: Corporate name
+
+  websiteUrl:
+    type: string
+    title: Your website's URL
+    format: uri
+
+  # email:
+  #   type: string
+  #   title: Email
+  #   options:
+  #     category: advanced
+  # password:
+  #   type: string
+  #   format: password
+  #   title: Password
+  #   options:
+  #     category: basic
+  # passwordConfirm:
+  #   type: string
+  #   format: password
+  #   options:
+  #     category: advanced
+  #   # title: Re-enter password

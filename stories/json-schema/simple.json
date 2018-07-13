@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": 5,
+      "minLength": 10
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "m",
+        "f"
+      ],
+      "options": {
+        "alias": {
+          "m": "Male",
+          "f": "Female"
+        }
+      }
+    },
+    "job": {
+      "type": "string",
+      "default": "Engineer",
+      "minLength": 10
+    }
+  }
+}

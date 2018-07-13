@@ -1,0 +1,17 @@
+---
+type: object
+properties:
+  name:
+    type: string
+  email:
+    type: string
+  message:
+    type: string
+    format: textarea
+    minLength: 10
+    maxLength: 20
+    default: |-
+      테스트 메세지 입니다.
+      테스트 메세지 입니다.
+    options:
+      rows: 5

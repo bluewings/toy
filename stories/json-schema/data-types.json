@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": 5,
+      "minLength": 10
+    },
+    "age": {
+      "type": "number",
+      "default": -50,
+      "minimum": 10,
+      "maximum": 100
+    },
+    "enum-test": {
+      "type": "number",
+      "enum": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "options": {
+        "alias": {
+          "20": "twenty",
+          "40": "forty"
+        }
+      }
+    },
+    "stars": {
+      "type": "number",
+      "enum": [
+        10,
+        20,
+        30,
+        40,
+        50
+      ],
+      "format": "slider",
+      "default": 30
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "m",
+        "f"
+      ],
+      "options": {
+        "alias": {
+          "m": "Male",
+          "f": "Female"
+        }
+      }
+    },
+    "job": {
+      "type": "string",
+      "default": "Engineer",
+      "minLength": 5
+    }
+  }
+}

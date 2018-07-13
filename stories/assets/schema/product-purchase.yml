@@ -1,0 +1,18 @@
+---
+  type: object
+  properties:
+    platform:
+      title: Platform
+      type: string
+      enum:
+        - pc
+        - playstation4
+        - xboxone
+        - switch
+    edition:
+      title: Edition
+      type: string
+      enum:
+        - standard
+        - deluxe
+  

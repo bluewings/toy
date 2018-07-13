@@ -1,0 +1,8 @@
+@import "./fonts/noto-sans.scss";
+body {
+    $bg-grid-size: 20px;
+    font-family: 'Noto Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    padding: 20px !important;
+    background-color: #fafafa; // background-image: repeating-linear-gradient(0deg, transparent, transparent $bg-grid-size - 1, rgba(0, 0, 0, 0.1) 1px, transparent $bg-grid-size), repeating-linear-gradient(90deg, transparent, transparent $bg-grid-size - 1, rgba(0, 0, 0, 0.1) 1px, transparent $bg-grid-size);
+    // background-size: $bg-grid-size $bg-grid-size;
+}

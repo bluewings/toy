@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "your name",
+      "default": "Albert",
+      "description": "list\n- list item 1\n- list item 2"
+    }
+  }
+}

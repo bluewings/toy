@@ -1,0 +1,68 @@
+---
+  type: object
+  properties:
+    rating:
+      title: Rate this transaction.
+      type: string
+      enum:
+      - positive
+      - neutral
+      - negative
+      - later
+      options:
+        alias:
+          positive: Positive
+          neutral: Neutral
+          negative: Negative
+          later: I will leave Feedback later
+    descriptionAccuracy:
+      title: How accurate was the item description?
+      type: number
+      format: slider
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      default: 3
+    communication:
+      title: How satistied were you with the seller's communication?
+      type: number
+      format: slider
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      default: 3
+    deliverySpeed:
+      title: How quickly did the seller ship the item?
+      type: number
+      format: slider
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      default: 3
+    handlingFee:
+      title: How reasonable were the shipping and handling charges?
+      type: number
+      format: slider
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      default: 3
+    comment:
+      title: Comment
+      type: string
+      format: textarea
+      maxLength: 200
+      options:
+        rows: 5

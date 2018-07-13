@@ -1,0 +1,30 @@
+---
+type: object
+properties:
+  name:
+    type: string
+    default: Darth Vader
+  tag_arr:
+    type: array
+    items:
+      type: string
+    options:
+      formType: tag
+  email:
+    type: string
+  gender:
+    type: string
+    enum:
+    - M
+    - F
+  age:
+    type: number
+  password:
+    type: string
+    format: password
+  description:
+    type: string
+    format: textarea
+    default: Father of Luke Skywalker
+    options:
+      rows: 3

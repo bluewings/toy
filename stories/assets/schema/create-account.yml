@@ -1,0 +1,19 @@
+---
+type: object
+properties:
+  name:
+    type: string
+    title: Your name
+    maxLength: 10
+    description: wow
+  email:
+    type: string
+    title: Email
+  password:
+    type: string
+    format: password
+    title: Password
+  passwordConfirm:
+    type: string
+    format: password
+    # title: Re-enter password
