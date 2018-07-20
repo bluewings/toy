@@ -2,7 +2,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs/react';
-import Calendar, { withRange } from '../../src2';
+import Calendar, { withRange } from '../../src';
 // import Wizard from '../../src/extensions/Wizard';
 import schema from '../assets/schema';
 import WithBootstrap from '../WithBootstrap';
