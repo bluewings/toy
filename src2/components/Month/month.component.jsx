@@ -13,6 +13,46 @@ class Month extends PureComponent {
     // console.log('aaa');
   }
 
+  handleEvent = (type, event) => {
+const {
+    year,
+    month,
+    weeks,
+    startDay,
+    monthIndex,
+    weekIndex,
+    dayIndex,
+    daysInMonth,
+    collapseLabel,
+} = this.props;
+
+    this.props.passThrough.month.events[type](event, {
+
+      year,
+      month,
+      weeks,
+      startDay,
+      monthIndex,
+      weekIndex,
+      dayIndex,
+      daysInMonth,
+      collapseLabel,
+    });
+  }
+
+  handleClick = (event) => {
+    this.handleEvent('click', event);
+    
+  }
+
+  handleMouseOver = (event) => {
+    this.handleEvent('mouseover', event);
+  }
+
+  handleMouseOut = (event) => {
+    this.handleEvent('mouseout', event);
+  }
+
   render() {
     // return template();
     // console.log('test');
@@ -25,14 +65,21 @@ class Month extends PureComponent {
 
     return (
       // <div style={{ border: "1px solid blue", position: "relative" }}>
-      <div style={{ position: "relative" }}>
-        {/* <h4>{this.props.year} {this.props.month} { this.props.firstDay}</h4> */}
-
+      <div style={{ position: "relative" }}
+      onClick={this.handleClick}
+      onMouseOver={this.handleMouseOver}
+      onMouseOut={this.handleMouseOut}
+      
+      >
+        {/* <h4>{this.props.year} {this.props.month} { this.props.startDay}</h4> */}
+  {/* <h4>{this.props.dayIndex}</h4> */}
         <MonthLabel 
         year={year}
         month={month}
         rowHeight={this.props.rowHeight} 
         collapseLabel={this.props.collapseLabel} 
+
+        passThrough={this.props.passThrough}
 
         cache={this.props.cache}
         monthLabelCss={this.props.monthLabelCss}
@@ -40,9 +87,16 @@ class Month extends PureComponent {
         />
         {
           this.props.weeks.map(week => {
-            return <Week {...week} daysInMonth={this.props.daysInMonth}
+            return <Week {...week}
+
+            minDayIndex={this.props.minDayIndex}
+            maxDayIndex={this.props.maxDayIndex}
+              daysSince={this.props.dayIndex}
+              daysInMonth={this.props.daysInMonth}
               width={this.props.width} 
               rowHeight={this.props.rowHeight} 
+
+              passThrough={this.props.passThrough}
 
               cache={this.props.cache}
               monthCss={this.props.monthCss}
@@ -50,14 +104,14 @@ class Month extends PureComponent {
               weekCss={this.props.weekCss}
               dayCss={this.props.dayCss}
 
-              monthRenderer={this.props.monthRenderer}
-              weekRenderer={this.props.weekRenderer}
-              dayRenderer={this.props.dayRenderer}
+              // monthRenderer={this.props.monthRenderer}
+              // weekRenderer={this.props.weekRenderer}
+              // dayRenderer={this.props.dayRenderer}
 
 
-              onDayClick={this.props.onDayClick}
-              onDayMouseover={this.props.onDayMouseover}
-              onDayMouseout={this.props.onDayMouseout}
+              // onDayClick={this.props.onDayClick}
+              // onDayMouseover={this.props.onDayMouseover}
+              // onDayMouseout={this.props.onDayMouseout}
 
             />
           })

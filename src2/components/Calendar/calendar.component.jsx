@@ -1,60 +1,45 @@
 import React, { PureComponent } from 'react';
 // import template from './calendar.component.pug';
-/* eslint-disable */
+/* eslint-disabl */
+import PropTypes from 'prop-types';
+import entries from 'object.entries';
 import 'react-virtualized/styles.css';
 import { AutoSizer, List } from 'react-virtualized';
-import {defaultProps, compose, withPropsOnChange} from 'recompose';
-import moment from 'moment';
+import { defaultProps, compose, withPropsOnChange } from 'recompose';
+// import moment from 'moment';
+import { format, compareAsc, differenceInDays, startOfMonth, getDaysInMonth, differenceInCalendarMonths, addMonths } from 'date-fns';
 import Month from '../Month';
 
+differenceInDays(new Date(1970, 0, 1), new Date(1970, 0, 2));
+
 class Calendar extends PureComponent {
-  componentDidMount() {
-    // console.log('aaa');
-  }
-
   cache = {}
-
-  handleDayClick = (event) => {
-    console.log('handleDayMouseover');
-  }
-
-  handleDayMouseover = (event) => {
-    
-  }
-
-  handleDayMouseout = (event) => {
-    
-  }
 
   render() {
     // return template();
     // console.log('test');
     const {
-      months
+      minDayIndex,
+      maxDayIndex,
+      months,
     } = this.props;
-
 
 
     return (
       <div>
-        <pre>{JSON.stringify(this.props)}</pre>
-      <div style={{ width: this.props.width, height: this.props.height, border: '5px solid red' }}>
-        <AutoSizer>
-          {({ height, width }) => {
-            
-
-            return (
+        <pre>{JSON.stringify(this.props._selected)}</pre>
+        <div style={{ width: this.props.width, height: this.props.height }}>
+          <AutoSizer>
+            {({ height, width }) => (
               <List
                 height={height}
-                rowHeight={240}
+                // rowHeight={240}
                 rowCount={months.length}
 
                 rowHeight={({ index }) => {
-
                   const { collapseLabel, weeks } = months[index];
 
-                  return (weeks.length + (collapseLabel ? 0 : 1)) * this.props.rowHeight
-
+                  return (weeks.length + (collapseLabel ? 0 : 1)) * this.props.rowHeight;
                 }}
                 rowRenderer={({ index, key, style }) => {
                   const { year, month } = months[index];
@@ -63,176 +48,184 @@ class Calendar extends PureComponent {
                     <div key={key} style={style}>
                       {/* <h3></h3> */}
                       <Month 
+                        minDayIndex={minDayIndex}
+                        maxDayIndex={maxDayIndex}
                       
-                      {...months[index]} 
+                        {...months[index]} 
 
-                      width={this.props.width} 
+                        width={this.props.width} 
 
-                      rowHeight={this.props.rowHeight} 
+                        rowHeight={this.props.rowHeight} 
 
-                      cache={this.cache}
+                        cache={this.cache}
 
-                      onDayClick={this.handleDayClick}
-                      onDayMouseover={this.handleDayMouseover}
-                      onDayMouseout={this.handleDayMouseout}
+                        passThrough={this.props.passThrough}
 
-                      monthCss={this.props.monthCss}
-                      monthLabelCss={this.props.monthLabelCss}
-                      weekCss={this.props.weekCss}
-                      dayCss={this.props.dayCss}
-
-                      monthRenderer={this.props.monthRenderer}
-                      monthLabelRenderer={this.props.monthLabelRenderer}
-                      weekRenderer={this.props.weekRenderer}
-                      dayRenderer={this.props.dayRenderer}
                       
                       />
-                      </div>
+                    </div>
                     
-                  )
+                  );
                   // return <div key={key} style={style}>{year}.{month}</div>
                 }
-                
                 
               
               }
                 width={width}
               />
             )
-          }
-          
 
           
           }
-        </AutoSizer>
-      </div>
+          </AutoSizer>
+        </div>
       </div>
     );
   }
 }
 
+Calendar.propTypes = {
+  width: PropTypes.number.isRequired,
+  rowHeight: PropTypes.number.isRequired,
+  passThrough: PropTypes.object.isRequired,
+};
+
+const byPass = base => base;
+const noop = () => {};
+
+const skeleton = () => ({
+  css: byPass,
+  renderer: byPass,
+  events: {
+    click: noop,
+    mouseover: noop,
+    mouseout: noop,
+  },
+});
+
 const enhance = compose(
   defaultProps({
-    min: new Date(2018, 0, 1),
-    max: new Date(2020, 11, 31),
-    width: 400,
+    min: new Date(2018, 0, 15),
+    max: new Date(2018, 11, 15),
+    width: 280,
     height: 400,
-    rowHeight: 36,
+    rowHeight: 40,
     renderer: {
-      monthLabel: (base, { year, month }) => {
-        return year + '년 ' + month + '월';
-      },
-      // day: (base, { day }) => {
-      //   return (
-      //     <div>
-      //       _
-      //       {base}
-      //     </div>
-      //   )
-      // }
+      // monthLabel: (base, { year, month }) => `${year}년 ${month}월`,
     },
     styles: {
-      day: ((base, { day, dayOfWeek }) => {
-
-        if (dayOfWeek === 0) {
-          return {
-            ...base,
-            color: 'red'
-            // background: 'yellow',
-          }
-        }
-        return base;
-
-      })
-    }
+      // day: ((base, { day, dayOfWeek }) => {
+      //   if (dayOfWeek === 0) {
+      //     return {
+      //       ...base,
+      //       color: 'red',
+      //       border: '1px solid black',
+      //       boxSizing: 'border-box',
+      //       // background: 'yellow',
+      //     };
+      //   }
+      //   return {
+      //     ...base,
+      //     border: '1px solid black',
+      //     boxSizing: 'border-box',
+      //   };
+      // }),
+    },
   }),
 
   withPropsOnChange(['min', 'max'], ({ min, max }) => {
-    const min_ = moment(min)
-    const max_ = moment(max)
+    // alert(min22)
+    
+    // const min_ = moment(min);
+    // const max_ = moment(max);
     // moment(max)
-
-    const monthCount = max_.diff(min_, 'months') + 1;
+    const minDayIndex = parseInt(min.getTime() / 60 / 60 / 24 / 1000, 10);
+    const maxDayIndex = parseInt(max.getTime() / 60 / 60 / 24 / 1000, 10);
+    // const monthCount = max_.diff(min_, 'months') + 1;
+    const monthCount = differenceInCalendarMonths(max, min) + 1;
     const months = [...Array(monthCount)].map((e, i) => {
-      const year = parseInt(min_.format('YYYY'), 10);
-      
-      const month = parseInt(min_.format('MM'), 10);
-      const firstDay = min_.startOf('month').day();
-      const daysInMonth = min_.daysInMonth();
-      min_.add(1, 'month');
+      const tmp = startOfMonth(addMonths(min, i));
+      const year = tmp.getFullYear();
+      const month = tmp.getMonth();
+
+
+      // const year = parseInt(min_.format('YYYY'), 10);
 
       
-      const weeks = [...Array(Math.ceil((firstDay + daysInMonth) / 7))]
-        .map((e, i) => {
-          return {
-            start: -firstDay + (i * 7) + 1,
-          }
-        })
+      // const month = parseInt(min_.format('MM'), 10);
+      // const startOfMont = min_.startOf('month');
+      const dayIndex = parseInt(tmp.getTime() / 60 / 60 / 24 / 1000, 10) - minDayIndex;
+      // const dayIndex = parseInt(startOfMont.unix() / 60 / 60 / 24, 10);
+
+
+      // const startDay = min_.startOf('month').day();
+
+      const startDay = startOfMonth(tmp).getDay();
+      // const startDay = min_.startOf('month').day();
+      // const daysInMonth = min_.daysInMonth();
+
+      const daysInMonth = getDaysInMonth(tmp);
+      // min_.add(1, 'month');
+
+      
+      const weeks = [...Array(Math.ceil((startDay + daysInMonth) / 7))]
+        .map((e, i) => ({
+          start: -startDay + (i * 7) + 1,
+        }));
 
       return {
         // a: 's',
         year,
         month,
         weeks,
-        collapseLabel: firstDay > 3,
-        firstDay,
-        daysInMonth,
-        i
-      }
-    })
 
+        startDay,
+        monthIndex: i,
+        weekIndex: parseInt(dayIndex / 7, 10),
+        dayIndex,
+        daysInMonth,
+        i,
+        collapseLabel: startDay > 3,
+      };
+    });
      
     return { 
+      minDayIndex,
+      maxDayIndex,
       months,
     };
   }),
-  withPropsOnChange(['styles'], ({ styles = {} }) => {
-    return Object.keys(styles).reduce((prev, key) => {
-      return {
-        ...prev,
-        [key + 'Css']: styles[key]
+
+  withPropsOnChange(['styles', 'renderer', 'events'], ({ styles = {}, renderer = {}, events = {} }) => {
+    const passThrough = {
+      month: skeleton(),
+      monthLabel: skeleton(),
+      week: skeleton(),
+      day: skeleton(),
+    };
+
+    Object.keys(styles).forEach((key) => {
+      if (passThrough[key]) {
+        passThrough[key].css = styles[key];
       }
-    }, {
-      monthCss: (base) => base,
-      monthLabelCss: (base) => base,
-      weekCss: (base) => base,
-      dayCss: (base) => base,
-    })
-  }), 
-  withPropsOnChange(['renderer'], ({ renderer = {} }) => {
-    return Object.keys(renderer).reduce((prev, key) => {
-      return {
-        ...prev,
-        [key + 'Renderer']: renderer[key]
+    });
+    Object.keys(renderer).forEach((key) => {
+      if (passThrough[key]) {
+        passThrough[key].renderer = renderer[key];
       }
-    }, {
-      monthRenderer: (base) => base,
-      monthLabelRenderer: (base) => base,
-      weekRenderer: (base) => base,
-      dayRenderer: (base) => base,
-    })
-  }), 
+    });
+    Object.keys(events).forEach((key) => {
+      if (passThrough[key]) {
+        passThrough[key].events = entries(events[key]).reduce((prev, [name, handler]) => ({
+          ...prev,
+          [name.toLowerCase()]: handler,
+        }), passThrough[key].events);
+      }
+    });
+    return {
+      passThrough,
+    };
+  }),
 );
-  // autoFocus: true,
-  // DayComponent: Day,
-  // display: 'days',
-  // displayOptions: {},
-  // HeaderComponent: Header,
-  // height: 500,
-  // keyboardSupport: true,
-  // max: new Date(2050, 11, 31),
-  // maxDate: new Date(2050, 11, 31),
-  // min: new Date(1980, 0, 1),
-  // minDate: new Date(1980, 0, 1),
-  // onHighlightedDateChange: emptyFn,
-  // onScroll: emptyFn,
-  // onScrollEnd: emptyFn,
-  // onSelect: emptyFn,
-  // passThrough: {},
-  // rowHeight: 56,
-  // tabIndex: 1,
-  // width: 400,
-  // YearsComponent: Years,
-// });
 
 export default enhance(Calendar);

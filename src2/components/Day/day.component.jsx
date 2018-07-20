@@ -1,11 +1,5 @@
 import React, { PureComponent } from 'react';
-// import template from './calendar.component.pug';
-/* eslint-disable */
-import 'react-virtualized/styles.css';
-import { AutoSizer, List } from 'react-virtualized';
-import { defaultProps, compose, withPropsOnChange } from 'recompose';
-import moment from 'moment';
-// import Week from '../Week';
+import PropTypes from 'prop-types';
 import memoize from 'memoize-one';
 import { css } from 'emotion';
 
@@ -31,9 +25,9 @@ const getStyle = (width, height, dayCss) => {
   if (!cached[height]) {
     const finale = {
       ...dayCss({
-        width: width + 'px',
+        width: `${width}px`,
         textAlign: 'center',
-        lineHeight: height + 'px',
+        lineHeight: `${height}px`,
         fontSize: '14px',
         // float: 'left',
       }),
@@ -42,13 +36,11 @@ const getStyle = (width, height, dayCss) => {
       display: 'inline-block',
       width: '36px',
       height,
-    }
-    ;
-
+    };
     cached[height] = css(finale);
   }
-  return cached[height]
-}
+  return cached[height];
+};
 
 
 class Day extends PureComponent {
@@ -56,27 +48,20 @@ class Day extends PureComponent {
     // console.log('aaa');
   }
 
-  // dayStyle = memoize(() => {
-
-  // }
-
-  dayStyle = memoize((width, height, dayCss) => {
-    return getStyle(width, height, dayCss);
-  })
-
+  dayStyle = memoize((width, height, dayCss) => getStyle(width, height, dayCss))
 
 
   _dayStyle = (...data) => {
     const key = data.join(',');
     if (!cached[key]) {
-      console.log('>> ' + JSON.stringify(data))
+      console.log(`>> ${JSON.stringify(data)}`);
       // console.log(data);
       const state = deserialize(data);
       // console.log(state);
       const finale = {
-        ...this.props.dayCss({
+        ...this.props.passThrough.day.css({
           textAlign: 'center',
-          lineHeight: state.height + 'px',
+          lineHeight: `${state.height}px`,
           fontSize: '14px',
           // float: 'left',
         }, state),
@@ -85,30 +70,31 @@ class Day extends PureComponent {
         display: 'inline-block',
         // width: '36px',
         width: state.width,
-        height: state.height
-      }
-      ;
+        height: state.height,
+      };
       cached[key] = css(finale);
-
     }
     return cached[key];
   }
 
-  newDayStyle = (state) => {
-    return this._dayStyle(...serialize(state))
-  }
+  newDayStyle = state => this._dayStyle(...serialize(state))
 
   handleClick = (event) => {
-    
-    this.props.onDayClick(event, {
+    this.props.passThrough.day.events.click(event, {
       
     });
   }
-  handleMouseover = (event) => {
-    this.props.onDayMouseover(event);
+
+  handleMouseOver = (event) => {
+    this.props.passThrough.day.events.mouseover(event, {
+      
+    });
   }
-  handleMouseout = (event) => {
-    this.props.onDayMouseout(event);
+
+  handleMouseOut = (event) => {
+    this.props.passThrough.day.events.mouseout(event, {
+      
+    });
   }
 
   // _dayStyle = memoize
@@ -119,51 +105,42 @@ class Day extends PureComponent {
     const {
       day,
       dayOfWeek,
+      daysSince, 
     } = this.props;
-
-    // console.log(this.dayStyle);
-    const state = {
-      day,
-    }
-
-
   
     const dayStyle = this.newDayStyle({
       day,
       dayOfWeek,
       width: this.props.width,
-      height: this.props.rowHeight
-    })
+      height: this.props.rowHeight,
+    });
 
+    const org = day ? daysSince : '';
+    // const org = day ? <span>{day}</span> : '';
+    // const org = day ? day : '';
 
-
-    // const dayStyle = this.dayStyle(this.props.rowHeight, this.props.dayCss);
-
-    const org = <em>{day}</em>
-    const rendered = this.props.dayRenderer(org, {
+    const rendered = this.props.passThrough.day.renderer(org, {
       day,
-      dayOfWeek
-    })
+      dayOfWeek,
+    });
 
     return (
-<span className={dayStyle}
-
-onClick={this.handleClick}
-onMouseover={this.handleMouseover}
-onMouseout={this.handleMouseout}
-    
-    > {rendered} </span>
-    )
-    
-
-
-
-    // return <span className={dayStyle}
-    
-    // > {day} </span>
-
-
+      <li
+        className={dayStyle}
+        onClick={this.handleClick}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+      >
+        {rendered} 
+      </li>
+    );
   }
 }
+
+Day.propTypes = {
+  width: PropTypes.number.isRequired,
+  rowHeight: PropTypes.number.isRequired,
+  passThrough: PropTypes.object.isRequired,
+};
 
 export default Day;

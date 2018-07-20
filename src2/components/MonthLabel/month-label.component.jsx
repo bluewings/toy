@@ -50,7 +50,7 @@ class MonthLabel extends PureComponent {
 
 
     const org = <em>{year} {month}</em>
-    const rendered = this.props.monthLabelRenderer(org, {
+    const rendered = this.props.passThrough.monthLabel.renderer(org, {
       year,
       month,
     })

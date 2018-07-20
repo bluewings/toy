@@ -1,11 +1,7 @@
 import React, { PureComponent } from 'react';
-// import template from './calendar.component.pug';
-/* eslint-disable */
-import 'react-virtualized/styles.css';
-import { AutoSizer, List } from 'react-virtualized';
-import {defaultProps, compose, withPropsOnChange} from 'recompose';
-import moment from 'moment';
-import css from 'emotion';
+import PropTypes from 'prop-types';
+import memoize from 'memoize-one';
+import { css } from 'emotion';
 import Day from '../Day';
 
 class Week extends PureComponent {
@@ -13,50 +9,75 @@ class Week extends PureComponent {
     // console.log('aaa');
   }
 
+  weekStyle = memoize(() => css({
+    display: 'block',
+    margin: 0,
+    padding: 0,
+  }))
+
+  handleClick = (event) => {
+    this.props.passThrough.week.events.click(event, {
+      
+    });
+  }
+
+  handleMouseOver = (event) => {
+    this.props.passThrough.week.events.mouseover(event, {
+      
+    });
+  }
+
+  handleMouseOut = (event) => {
+    this.props.passThrough.week.events.mouseout(event, {
+      
+    });
+  }
+
   render() {
     // return template();
-    // console.log('test');
-    const {
-      
-    } = this.props;
+
 
     const days = [...Array(7)];
 
     // rowHeight={this.props.rowHeight} 
 
-    const width = Math.floor(this.props.width / 7)
+    const width = Math.floor(this.props.width / 7);
+
+    const weekStyle = this.weekStyle();
     return (
 
-      <div>
+      <ul
+        className={weekStyle}
+        onClick={this.handleClick}
+        onMouseOver={this.handleMouseOver}
+        onMouseOut={this.handleMouseOut}
+      >
         {
           days.map((e, i) => {
             let day = this.props.start + i;
-            if (day < 1) { day = '' };
-            if (day > this.props.daysInMonth) { day = '' };
-            return <Day
+            if (day < 1) { day = ''; }
+            if (day > this.props.daysInMonth) { day = ''; }
+            return (<Day
               day={day}
+              daysSince={this.props.daysSince + day - 1}
               dayOfWeek={i}
 
               width={width} 
               rowHeight={this.props.rowHeight}  
               cache={this.props.cache}
-              dayCss={this.props.dayCss}
-              dayRenderer={this.props.dayRenderer}
-
-              onDayClick={this.props.onDayClick}
-              onDayMouseover={this.props.onDayMouseover}
-              onDayMouseout={this.props.onDayMouseout}
-              />
+              passThrough={this.props.passThrough}
+            />);
           })
         }
-        {/* <h4>week</h4> */}
-      {/* <pre>
-
-        {JSON.stringify(this.props)}
-        </pre> */}
-        </div>
-    )
+      </ul>
+    );
   }
 }
+
+Week.propTypes = {
+  width: PropTypes.number.isRequired,
+  rowHeight: PropTypes.number.isRequired,
+  passThrough: PropTypes.object.isRequired,
+};
 
 export default Week;
