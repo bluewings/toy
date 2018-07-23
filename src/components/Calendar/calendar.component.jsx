@@ -27,6 +27,7 @@ class Calendar extends PureComponent {
 
     return (
       <div>
+        <pre>{JSON.stringify(this.props.selected)}</pre>
         <pre>{JSON.stringify(this.props._selected)}</pre>
         <div style={{ width: this.props.width, height: this.props.height }}>
           <AutoSizer>
@@ -92,6 +93,7 @@ Calendar.propTypes = {
 
 const byPass = base => base;
 const noop = () => {};
+const returnFalse = () => false;
 
 const skeleton = () => ({
   css: byPass,
@@ -101,6 +103,7 @@ const skeleton = () => ({
     mouseover: noop,
     mouseout: noop,
   },
+  isSelected: returnFalse,
 });
 
 const enhance = compose(
@@ -110,6 +113,8 @@ const enhance = compose(
     width: 280,
     height: 400,
     rowHeight: 40,
+    isSelected: returnFalse,
+    // isSelected: returnFalse,
     renderer: {
       // monthLabel: (base, { year, month }) => `${year}년 ${month}월`,
     },
@@ -154,7 +159,8 @@ const enhance = compose(
       
       // const month = parseInt(min_.format('MM'), 10);
       // const startOfMont = min_.startOf('month');
-      const dayIndex = parseInt(tmp.getTime() / 60 / 60 / 24 / 1000, 10) - minDayIndex;
+      // const dayIndex = parseInt(tmp.getTime() / 60 / 60 / 24 / 1000, 10) - minDayIndex;
+      const dayIndex = parseInt(tmp.getTime() / 60 / 60 / 24 / 1000, 10);
       // const dayIndex = parseInt(startOfMont.unix() / 60 / 60 / 24, 10);
 
 
@@ -196,7 +202,9 @@ const enhance = compose(
     };
   }),
 
-  withPropsOnChange(['styles', 'renderer', 'events'], ({ styles = {}, renderer = {}, events = {} }) => {
+  withPropsOnChange(['styles', 'renderer', 'events', 'isSelected'], ({
+    styles = {}, renderer = {}, events = {}, isSelected = {}, 
+  }) => {
     const passThrough = {
       month: skeleton(),
       monthLabel: skeleton(),
@@ -222,6 +230,12 @@ const enhance = compose(
         }), passThrough[key].events);
       }
     });
+    passThrough.isSelected = isSelected || (() => false);
+    // Object.keys(isSelected).forEach((key) => {
+    //   if (passThrough[key]) {
+    //     passThrough[key].isSelected = isSelected[key];
+    //   }
+    // });
     return {
       passThrough,
     };

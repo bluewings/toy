@@ -58,6 +58,8 @@ class Week extends PureComponent {
             if (day < 1) { day = ''; }
             if (day > this.props.daysInMonth) { day = ''; }
             return (<Day
+              year={this.props.year}
+              month={this.props.month}
               day={day}
               daysSince={this.props.daysSince + day - 1}
               dayOfWeek={i}

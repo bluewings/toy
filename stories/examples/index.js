@@ -6,6 +6,7 @@ import Calendar, { withRange } from '../../src';
 // import Wizard from '../../src/extensions/Wizard';
 import schema from '../assets/schema';
 import WithBootstrap from '../WithBootstrap';
+import { basename } from 'path';
 
 const NewCal = withRange(Calendar);
 
@@ -18,6 +19,14 @@ storiesOf('Examples', module)
         selected={{
           start: new Date(2018, 1, 16),
           end: new Date(2018, 1, 20),
+        }}
+        renderer={{
+          day: (base, { day, isSelected }) => {
+            if (isSelected) {
+              return '*';
+            }
+            return day;
+          }
         }}
         events={{
           day: {

@@ -88,7 +88,8 @@ const {
         {
           this.props.weeks.map(week => {
             return <Week {...week}
-
+            year={year}
+            month={month}
             minDayIndex={this.props.minDayIndex}
             maxDayIndex={this.props.maxDayIndex}
               daysSince={this.props.dayIndex}

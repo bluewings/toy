@@ -80,8 +80,16 @@ class Day extends PureComponent {
   newDayStyle = state => this._dayStyle(...serialize(state))
 
   handleClick = (event) => {
+
+    const {
+      year,
+      month,
+      day,
+    } = this.props;
     this.props.passThrough.day.events.click(event, {
-      
+      year,
+      month,
+      day,
     });
   }
 
@@ -103,6 +111,8 @@ class Day extends PureComponent {
     // return template();
     // console.log('test');
     const {
+      year,
+      month,
       day,
       dayOfWeek,
       daysSince, 
@@ -119,9 +129,20 @@ class Day extends PureComponent {
     // const org = day ? <span>{day}</span> : '';
     // const org = day ? day : '';
 
+
+
+    const isSelected = this.props.passThrough.isSelected({
+      year,
+      month,
+      day,
+      dayOfWeek,
+      daysSince,
+    });
+
     const rendered = this.props.passThrough.day.renderer(org, {
       day,
       dayOfWeek,
+      isSelected,
     });
 
     return (
