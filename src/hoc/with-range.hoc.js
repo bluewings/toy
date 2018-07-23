@@ -5,6 +5,8 @@ const withRange = compose(
   withState('selStart', 'updateSelStart', null),
   withState('selEnd', 'updateSelEnd', null),
 
+
+
   withPropsOnChange(['selected'], ({ selected, updateSelStart, updateSelEnd }) => {
   // console.log(selected);
   // if (Array.)
@@ -57,8 +59,16 @@ const withRange = compose(
       events: {
         day: {
           click: (event, { year, month, day }) => {
+
+            if (!__selectedStart || 
+              (__selectedStart && __selectedEnd)) {
+              updateSelStart(new Date(year, month, day).toISOString());
+              updateSelEnd(null);
+            } else {
+              updateSelEnd(new Date(year, month, day).toISOString());
+            }
             
-            updateSelStart(new Date(year, month, day).toISOString());
+            
           }
         }
       }
