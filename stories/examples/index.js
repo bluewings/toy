@@ -16,6 +16,7 @@ storiesOf('Examples', module)
     <WithBootstrap>
       <h3>Wizard</h3>
       <NewCal 
+        width={700}
         selected={{
           start: new Date(2018, 1, 16),
           end: new Date(2018, 1, 20),

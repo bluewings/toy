@@ -74,6 +74,11 @@ const withRange = compose(
       }
     };
   }),
+
+  withProps(({}) => {
+    console.log('withProps called');
+    return {};
+  })
   
 
 );

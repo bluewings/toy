@@ -54,7 +54,7 @@ class Day extends PureComponent {
   _dayStyle = (...data) => {
     const key = data.join(',');
     if (!cached[key]) {
-      console.log(`>> ${JSON.stringify(data)}`);
+      // console.log(`>> ${JSON.stringify(data)}`);
       // console.log(data);
       const state = deserialize(data);
       // console.log(state);
@@ -80,7 +80,6 @@ class Day extends PureComponent {
   newDayStyle = state => this._dayStyle(...serialize(state))
 
   handleClick = (event) => {
-
     const {
       year,
       month,
@@ -125,10 +124,9 @@ class Day extends PureComponent {
       height: this.props.rowHeight,
     });
 
-    const org = day ? daysSince : '';
+    // const org = day ? (<div>{day}, {daysSince}</div>) : daysSince;
     // const org = day ? <span>{day}</span> : '';
-    // const org = day ? day : '';
-
+    const org = day ? day : '';
 
 
     const isSelected = this.props.passThrough.isSelected({

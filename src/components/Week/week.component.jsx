@@ -55,13 +55,21 @@ class Week extends PureComponent {
         {
           days.map((e, i) => {
             let day = this.props.start + i;
-            if (day < 1) { day = ''; }
-            if (day > this.props.daysInMonth) { day = ''; }
+            let daysSince;
+            if (day < 1) {
+              day = '';
+              daysSince = this.props.daysSince - 0.5;
+          } else if (day > this.props.daysInMonth) {
+            day = '';
+            daysSince = this.props.daysSince + this.props.daysInMonth -  0.5;
+         } else {
+           daysSince = this.props.daysSince + day - 1;
+         }
             return (<Day
               year={this.props.year}
               month={this.props.month}
               day={day}
-              daysSince={this.props.daysSince + day - 1}
+              daysSince={daysSince}
               dayOfWeek={i}
 
               width={width} 
